@@ -90,6 +90,9 @@ bool HclDeviceConfigGaudiCommon::determineHclType()
         case HL_SERVER_GAUDI2_HLS2:
             configTypeFromServer = HLS2;
             break;
+	case HL_SERVER_GAUDI2_HL288:
+	    configTypeFromServer = HL288;
+	    break;
         case HL_SERVER_GAUDI3_HLS3_FULL_OAM_3PORTS_SCALE_OUT:
             configTypeFromServer = HLS3;
             break;
@@ -124,6 +127,13 @@ bool HclDeviceConfigGaudiCommon::validateHclType()
             LOG_HCL_CRITICAL(HCL, "Invalid HCL_TYPE value ({})", configType);
             return false;
         case HLS2:
+            if (!IS_DEVICE_GAUDI2(m_deviceType))
+            {
+                LOG_HCL_CRITICAL(HCL, "Invalid HCL_TYPE value ({}) for Gaudi2", configType);
+                return false;
+            }
+            break;
+	case HL288:
             if (!IS_DEVICE_GAUDI2(m_deviceType))
             {
                 LOG_HCL_CRITICAL(HCL, "Invalid HCL_TYPE value ({}) for Gaudi2", configType);

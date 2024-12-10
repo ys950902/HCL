@@ -10,6 +10,9 @@
 #include "platform/gen2_arch_common/hcl_device_controller.h"  // for HclDeviceControllerGen2Arch
 #include "platform/gen2_arch_common/hcl_device.h"             // for HclDeviceGen2Arch
 #include "platform/gen2_arch_common/hcl_device_config.h"      // for HclDeviceConfig
+#include "platform/gaudi2/hcl_device_controller.h"            // for HclDeviceControllerGaudi2
+#include "platform/gen2_arch_common/hcl_device_config.h"      // for HclDeviceConfig
+#include "interfaces/hcl_hal.h"                               // for HalPtr
 
 #include "hcl_utils.h"        // for LOG_HCL_*
 #include "hcl_log_manager.h"  // for LOG_*
@@ -25,5 +28,13 @@ HLS2PCIEServerDef::HLS2PCIEServerDef(const int        fd,
 
 void HLS2PCIEServerDef::init()
 {
-    VERIFY(false, "Unsupported server");
+    LOG_HCL_DEBUG(HCL, "Started");
+    m_serverConnectivity =
+        std::make_unique<HLS2PCIEServerConnectivity>(m_fd, m_moduleId, false /*useDummyConnectivity*/, m_deviceConfig);
+    m_serverConnectivity->init(!m_isUnitTest);
+
+    m_halShared        = std::make_shared<hcl::Gaudi2Hal>();
+    m_deviceController = std::make_unique<HclDeviceControllerGaudi2>(m_fd, m_halShared->getMaxStreams());
+    m_device = m_fd >= 0 ? std::make_unique<HclDeviceGaudi2>(*m_deviceController, m_deviceConfig, m_halShared, *this)
+                         : nullptr;
 }

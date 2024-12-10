@@ -25,6 +25,7 @@
 #include "platform/gaudi3/hls3_server_def.h"                  // for HLS3ServerDef
 #include "platform/gaudi3/hls3pcie_server_def.h"              // for HLS3PCIEServerDef
 #include "platform/gaudi2/hls2_server_def.h"                  // for HLS2ServerDef
+#include "platform/gaudi2/hls2pcie_server_def.h"                  // for HLS2ServerDef
 
 hcl::HalPtr                        HclControlDeviceFactory::s_halShared = nullptr;
 std::unique_ptr<Gen2ArchServerDef> HclControlDeviceFactory::s_serverDef = nullptr;
@@ -44,6 +45,10 @@ hccl_device_t* HclControlDeviceFactory::initDevice(HclDeviceConfig& deviceConf)
     switch (configType)
     {
         case HLS2:
+            s_halShared = std::make_shared<hcl::Gaudi2Hal>();
+            s_serverDef = std::make_unique<HLS2ServerDef>(fd, deviceConfig.getHwModuleId(), deviceConfig, false);
+            break;
+	case HL288:
             s_halShared = std::make_shared<hcl::Gaudi2Hal>();
             s_serverDef = std::make_unique<HLS2ServerDef>(fd, deviceConfig.getHwModuleId(), deviceConfig, false);
             break;

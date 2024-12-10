@@ -231,7 +231,8 @@ enum HclConfigType
     HLS1H       = 6,
     HLS2        = 7,
     HLS3        = 8,
-    HL338       = 9
+    HL338       = 9,
+    HL288       = 10
 };
 
 using HclRankAndCommSet = std::set<std::pair<HCL_Comm, HCL_Rank>>;
