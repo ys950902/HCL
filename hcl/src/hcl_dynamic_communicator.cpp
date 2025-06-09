@@ -548,6 +548,8 @@ hcclResult_t HclDynamicCommunicator::setCommScaleupGroupSize()
         return hcclInternalError;
     }
 
+    m_scaleupGroupSize = 1;
+
     if (GCFG_HCL_NULL_SUBMIT.value())
     {
         m_scaleupGroupSize = m_serverDef.getDefaultBoxSize();
@@ -604,7 +606,8 @@ hcclResult_t HclDynamicCommunicator::setCommScaleupGroupSize()
                              m_rankInfo.header.hostname,
                              ranksInBox);
             }
-            m_scaleupGroupSize = ranksInBox;
+	    if (m_scaleupGroupSize > ranksInBox)
+	        m_scaleupGroupSize = ranksInBox;
         }
         else
         {
@@ -625,7 +628,7 @@ hcclResult_t HclDynamicCommunicator::setCommScaleupGroupSize()
     hostIndex = 1;
     while (hostIndex < hostSizes.size() && hostSizes[hostIndex] > 0)
     {
-        if (hostSizes[hostIndex] != ranksInBox)
+        if (hostSizes[hostIndex] != hostSizes[0])
         {
             LOG_HCL_ERR(
                 HCL,

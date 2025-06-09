@@ -194,7 +194,7 @@ void Gen2ArchRuntimeConnectivity::setMaxSubNics()
                   m_hclCommId,
                   m_maxSubNicScaleup,
                   m_maxSubNicScaleout);
-    VERIFY(m_maxSubNicScaleup > 0);
+    // VERIFY(m_maxSubNicScaleup > 0);
     VERIFY(m_maxSubNicScaleout > 0);
 }
 

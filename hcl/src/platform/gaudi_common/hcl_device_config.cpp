@@ -95,13 +95,14 @@ bool HclDeviceConfigGaudiCommon::determineHclType()
             configTypeFromServer = HL288;
             break;
         case HL_SERVER_GAUDI3_HLS3_FULL_OAM_3PORTS_SCALE_OUT:
+	// Ensure GAUDI3_RACK_WHITEBOX goes local implementation
+	case HL_SERVER_GAUDI3_RACK_WHITEBOX:
             configTypeFromServer = HLS3;
             break;
         case HL_SERVER_GAUDI3_HL338:
             configTypeFromServer = HL338;
             break;
         case HL_SERVER_GAUDI3_RACK:
-        case HL_SERVER_GAUDI3_RACK_WHITEBOX:
             configTypeFromServer = HL3_RACK;
             break;
         default:

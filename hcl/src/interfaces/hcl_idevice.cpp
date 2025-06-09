@@ -579,7 +579,7 @@ hcclResult_t IHclDevice::connectRankQps(HCL_Comm comm, HCL_Rank rank)
     // access GaudiNicQPs by index and translate to port
     LOG_HCL_INFO(HCL, "Rank comm({}) rank({}) start", comm, rank);
     uint32_t opened_qps = 0;
-    for (uint8_t index = 0; index < getMaxNumScaleUpPortsPerConnection(); index++)
+    for (uint8_t index = 0; index < std::max((int)getMaxNumScaleUpPortsPerConnection(), 3); index++)
     {
         for (uint8_t qpSet = 0; qpSet < MAX_QPS_SETS_PER_CONNECTION; qpSet++)
         {
